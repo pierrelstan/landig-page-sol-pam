@@ -8,9 +8,15 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        'phone': "url('./img/stable.svg')",
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        white:"#ffffff",
+        slate:"#252736",
+        tropicalRainForest:"#158167"
       },
     },
   },
