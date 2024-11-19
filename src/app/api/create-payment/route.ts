@@ -1,4 +1,7 @@
-import Moncash from "moncash";
+// Import Moncash without type checking
+// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-explicit-any
+const Moncash: any = require("moncash");
+
 
 export const dynamic = 'force-static';
 
@@ -18,7 +21,8 @@ export async function POST() {
           amount: "50", // Ex: 50
           orderId: "32", // Must be unique
         },
-        (err, payment) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (err:any, payment:any) => {
           if (err) {
             reject(err);
           } else {
