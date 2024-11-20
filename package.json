@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "firebase": "^10.14.1",
+    "moncash": "^0.1.6",
     "next": "14.2.14",
     "nodemailer": "^6.9.15",
     "react": "^18",
