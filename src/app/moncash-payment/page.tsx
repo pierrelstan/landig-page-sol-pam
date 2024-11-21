@@ -11,8 +11,9 @@ export default function CreatePayment() {
     setLoading(true);
     setPaymentURI(null); // Clear previous response
     setError(null); // Clear previous error
+    console.log(process.env.NEXT_PUBLIC_URL);
     try {
-      const res = await fetch("/api/create-payment", {
+      const res = await fetch(`/api/moncash-payment`, {
         method: "POST",
       });
 
