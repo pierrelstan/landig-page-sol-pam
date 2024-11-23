@@ -40,7 +40,7 @@ console.log(error)
 
 export async function POST(request: Request) {
   try {
-    const { receiver, amount, desc,  } = await request.json();
+    const { receiver, amount, desc, transaction_id } = await request.json();
     console.log(receiver, amount, desc)
 
     if (!receiver || !amount || !desc ) {
@@ -65,7 +65,8 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         amount,
         receiver,
-        desc
+        desc,
+        transaction_id
          }),
     });
 

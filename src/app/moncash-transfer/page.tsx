@@ -8,6 +8,7 @@ export default function TransferPage() {
   const [receiver, setReceiver] = useState("");
   const [amount, setAmount] = useState<number | string>("");
   const [desc, setDesc] = useState("");
+  const [transaction_id, setTransaction] = useState("");
   const [status, setStatus] = useState("");
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -23,6 +24,7 @@ export default function TransferPage() {
           receiver,
           amount,
           desc,
+          transaction_id,
         }),
       });
 
@@ -65,6 +67,22 @@ export default function TransferPage() {
             htmlFor="amount"
             className="block text-sm font-medium text-gray-700"
           >
+            Transaction Id:
+          </label>
+          <input
+            type="number"
+            id="transaction"
+            value={transaction_id}
+            onChange={(e) => setTransaction(e.target.value)}
+            required
+            className="mt-1 block w-full px-3 py-2 border  text-black border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="amount"
+            className="block text-sm font-medium text-gray-700"
+          >
             Amount:
           </label>
           <input
@@ -91,6 +109,7 @@ export default function TransferPage() {
             className="mt-1 block w-full px-3 py-2 border text-black border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
           />
         </div>
+
         <button
           type="submit"
           className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
