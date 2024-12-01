@@ -136,7 +136,7 @@ export default function JoinWaitList() {
             <form onSubmit={handleSubmit}>
               <input
                 className="placeholder:italic placeholder:text-slate-400 block bg-white w-full  border 
-                border-slate-300 rounded-md py-2 pl-9 pr-3  mt-10 shadow-sm focus:outline-none
+                border-slate-300 rounded-md py-2 pl-2  mt-10 shadow-sm focus:outline-none
                  focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-black"
                 type="email"
                 name="email"
@@ -147,14 +147,14 @@ export default function JoinWaitList() {
               />
 
               <button
-                className="bg-tropicalRainForest active:bg-black text-white disabled:opacity-75  font-light py-2 px-5  rounded-md mt-5"
+                className="bg-tropicalRainForest active:bg-black text-white disabled:opacity-75  font-light py-2 px-3  rounded-md mt-5"
                 type="submit"
                 disabled={loading}
               >
                 {loading ? (
-                  <div className="flex flex-row gap-2 items-center justify-center">
+                  <span className="flex flex-row gap-1 items-center justify-center m-0 p-0">
                     <Spinner /> Joining the waitlist...{" "}
-                  </div>
+                  </span>
                 ) : (
                   "Join the waitlist"
                 )}
