@@ -6,9 +6,9 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import phoneSvg from "@/app/img/phone_image_with_logo.svg";
 import "firebase/firestore";
-import { initializeApp } from 'firebase/app';
-import { getFirestore, setDoc, doc, getDoc } from 'firebase/firestore';
-import MailJet from 'node-mailjet';
+import { initializeApp } from "firebase/app";
+import { getFirestore, setDoc, doc, getDoc } from "firebase/firestore";
+import MailJet from "node-mailjet";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -23,19 +23,18 @@ const firebaseConfig = {
 const mailJetConfig = {
   apiKey: process.env.NEXT_PUBLIC_MAILJET_API_KEY || "",
   secretKey: process.env.NEXT_PUBLIC_MAILJET_SECRET_KEY || "",
-  senderEmail: process.env.NEXT_PUBLIC_MAILJET_SENDER || "contactsolpam@gmail.com"
-}
-
+  senderEmail:
+    process.env.NEXT_PUBLIC_MAILJET_SENDER || "contactsolpam@gmail.com",
+};
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app); 
+const db = getFirestore(app);
 
 export default function JoinWaitList() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    
     e.preventDefault();
 
     try {
@@ -46,78 +45,78 @@ export default function JoinWaitList() {
       setLoading(false);
       if (docSnapshot.exists()) {
         // Email already exists, show an error
-        toast.error('This email is already on the waitlist.');
+        toast.error("This email is already on the waitlist.");
       } else {
         // Set the document with the email data
         await setDoc(reference, {
-          email
+          email,
         });
 
         // SEND EMAIL TO US AND TO THEM
         const mailjet = MailJet.apiConnect(
           mailJetConfig.apiKey,
           mailJetConfig.secretKey
-        )
-        const request1 = mailjet.post('send', { version: 'v3.1' }).request({
+        );
+        const request1 = mailjet.post("send", { version: "v3.1" }).request({
           Messages: [
             {
               From: {
                 Email: mailJetConfig.senderEmail,
-                Name: 'SòlPam Team',
+                Name: "SòlPam Team",
               },
               To: [
                 {
-                  Email:email ,
-                  Name: 'You',
+                  Email: email,
+                  Name: "You",
                 },
               ],
-              Subject: 'Solpam waitlist',
+              Subject: "Solpam waitlist",
               HTMLPart:
-                'Thank you for subscribing to Solpam waitlist. We will use that email to keep you updated with our progress and eventually you will become our first user! <br></br>Regards, <br></br>SòlPam',
+                "Thank you for subscribing to Solpam waitlist. We will use that email to keep you updated with our progress and eventually you will become our first user! <br></br>Regards, <br></br>SòlPam",
             },
           ],
-        })
+        });
         request1
-          .then(result => {
-            console.log(result.body)
+          .then((result) => {
+            console.log(result.body);
+            setEmail("");
           })
-          .catch(err => {
-            console.log(err.statusCode)
-          })
+          .catch((err) => {
+            console.log(err.statusCode);
+          });
 
-        const request2 = mailjet.post('send', { version: 'v3.1' }).request({
+        const request2 = mailjet.post("send", { version: "v3.1" }).request({
           Messages: [
             {
               From: {
                 Email: mailJetConfig.senderEmail,
-                Name: 'SòlPam Team',
+                Name: "SòlPam Team",
               },
               To: [
                 {
-                  Email:'infotorch2014@gmail.com' ,
-                  Name: 'You',
+                  Email: "infotorch2014@gmail.com",
+                  Name: "You",
                 },
               ],
-              Subject: 'Solpam waitlist',
-              HTMLPart:
-                `${email} just joined the waitlist!`,
+              Subject: "Solpam waitlist",
+              HTMLPart: `${email} just joined the waitlist!`,
             },
           ],
-        })
+        });
         request2
-          .then(result => {
-            console.log(result.body)
+          .then((result) => {
+            console.log(result.body);
+            setEmail("");
           })
-          .catch(err => {
-            console.log(err.statusCode)
-          })
+          .catch((err) => {
+            console.log(err.statusCode);
+          });
 
-
-        toast.success('You have successfully joined the waitlist!');
+        toast.success("You have successfully joined the waitlist!");
       }
     } catch (error) {
-      console.error('Error joining waitlist: ', error);
-      toast.error('Error joining waitlist.');
+      console.error("Error joining waitlist: ", error);
+      toast.error("Error joining waitlist.");
     }
   };
 
