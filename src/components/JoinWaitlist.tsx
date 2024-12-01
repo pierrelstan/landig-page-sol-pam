@@ -8,6 +8,7 @@ import phoneSvg from "@/app/img/phone_image_with_logo.svg";
 import "firebase/firestore";
 import { initializeApp } from 'firebase/app';
 import { getFirestore, setDoc, doc, getDoc } from 'firebase/firestore';
+import MailJet from 'node-mailjet';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -18,6 +19,12 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_NEXT_PUBLIC_FIREBASE_APP_ID,
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
+
+const mailJetConfig = {
+  apiKey: process.env.NEXT_PUBLIC_MAILJET_API_KEY || "",
+  secretKey: process.env.NEXT_PUBLIC_MAILJET_SECRET_KEY || "",
+  senderEmail: process.env.NEXT_PUBLIC_MAILJET_SENDER || "contactsolpam@gmail.com"
+}
 
 
 const app = initializeApp(firebaseConfig);
@@ -45,6 +52,40 @@ export default function JoinWaitList() {
         await setDoc(reference, {
           email
         });
+
+        // SEND EMAIL TO US AND TO THEM
+        const mailjet = MailJet.apiConnect(
+          mailJetConfig.apiKey,
+          mailJetConfig.secretKey
+        )
+        const request = mailjet.post('send', { version: 'v3.1' }).request({
+          Messages: [
+            {
+              From: {
+                Email: mailJetConfig.senderEmail,
+                Name: 'SòlPam Team',
+              },
+              To: [
+                {
+                  Email:email ,
+                  Name: 'You',
+                },
+              ],
+              Subject: 'Solpam waitlist',
+              HTMLPart:
+                'Thank you for subscribing to Solpam waitlist. We will use that email to keep you updated with our progress and eventually you will become our first user! <br></br>Regards, <br></br>SòlPam',
+            },
+          ],
+        })
+        request
+          .then(result => {
+            console.log(result.body)
+          })
+          .catch(err => {
+            console.log(err.statusCode)
+          })
+
+
         toast.success('You have successfully joined the waitlist!');
       }
     } catch (error) {
