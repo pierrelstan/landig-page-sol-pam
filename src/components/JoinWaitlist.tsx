@@ -58,7 +58,7 @@ export default function JoinWaitList() {
           mailJetConfig.apiKey,
           mailJetConfig.secretKey
         )
-        const request = mailjet.post('send', { version: 'v3.1' }).request({
+        const request1 = mailjet.post('send', { version: 'v3.1' }).request({
           Messages: [
             {
               From: {
@@ -77,7 +77,34 @@ export default function JoinWaitList() {
             },
           ],
         })
-        request
+        request1
+          .then(result => {
+            console.log(result.body)
+          })
+          .catch(err => {
+            console.log(err.statusCode)
+          })
+
+        const request2 = mailjet.post('send', { version: 'v3.1' }).request({
+          Messages: [
+            {
+              From: {
+                Email: mailJetConfig.senderEmail,
+                Name: 'SòlPam Team',
+              },
+              To: [
+                {
+                  Email:'infotorch2014@gmail.com' ,
+                  Name: 'You',
+                },
+              ],
+              Subject: 'Solpam waitlist',
+              HTMLPart:
+                `${email} just joined the waitlist!`,
+            },
+          ],
+        })
+        request2
           .then(result => {
             console.log(result.body)
           })
