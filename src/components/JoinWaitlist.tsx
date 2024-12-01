@@ -9,6 +9,7 @@ import "firebase/firestore";
 import { initializeApp } from "firebase/app";
 import { getFirestore, setDoc, doc, getDoc } from "firebase/firestore";
 import MailJet from "node-mailjet";
+import Spinner from "./Spinner";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -150,7 +151,13 @@ export default function JoinWaitList() {
                 type="submit"
                 disabled={loading}
               >
-                {loading ? "Joining the waitlist.." : "Join the waitlist"}
+                {loading ? (
+                  <div className="flex flex-row gap-2 items-center justify-center">
+                    <Spinner /> Joining the waitlist...{" "}
+                  </div>
+                ) : (
+                  "Join the waitlist"
+                )}
               </button>
             </form>
           </div>
